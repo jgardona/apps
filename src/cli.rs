@@ -6,7 +6,7 @@ use askama::Template;
 use clap::{Parser, Subcommand};
 
 use crate::cli::{
-    fsystem::{get_dir_iter, DesktopTemplate, remove_file},
+    fsystem::{get_dir_iter, remove_file, DesktopTemplate},
     view::{display, FileItem},
 };
 
@@ -97,7 +97,7 @@ fn cast(fdata: std::fs::ReadDir) -> error::Result<Vec<FileItem>> {
         let filename = e.file_name().clone();
         let filename: String = filename.to_str().unwrap().into();
         let kind = if !filename.ends_with("desktop") {
-            "✕".to_string()
+            continue;
         } else {
             "✔".to_string()
         };
@@ -111,4 +111,68 @@ pub fn execute() -> error::Result<()> {
     let cli = Cli::parse();
     match_commands(cli.command)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod cli_tests {
+    use std::path::Path;
+
+    use assert_cmd::Command;
+    use predicates::prelude::*;
+
+    #[test]
+    fn test_cli_list_output() {
+        let mut cmd = Command::cargo_bin("apps").unwrap();
+        cmd.env("HOME", "tests")
+            .arg("read")
+            .arg("--list")
+            .assert()
+            .stdout(predicate::str::contains(".desktop"))
+            .success();
+    }
+
+    #[test]
+    fn test_cli_count_output() {
+        let mut cmd = Command::cargo_bin("apps").unwrap();
+        cmd.env("HOME", "tests")
+            .arg("read")
+            .arg("--count")
+            .assert()
+            .stdout(predicate::str::contains("2"))
+            .success();
+    }
+
+    #[test]
+    fn test_cli_create_launcher() {
+        let mut cmd = Command::cargo_bin("apps").unwrap();
+        cmd.env("HOME", "tests")
+            .arg("create")
+            .arg("example")
+            .arg("example.icon")
+            .arg("exampleexecutable")
+            .arg("simple comment text")
+            .assert()
+            .success();
+
+        let file_path = "tests/.local/share/applications/example.desktop";
+        let path = Path::new(file_path);
+        assert!(path.exists());
+        std::fs::remove_file(path).unwrap();
+    }
+
+    #[test]
+    fn test_cli_remove_file() {
+        let file_path = "tests/.local/share/applications/example.desktop";
+        let path = Path::new(file_path);
+        let _ =  std::fs::File::create(path).unwrap();
+        
+        let mut cmd = Command::cargo_bin("apps").unwrap();
+        cmd.env("HOME", "tests")
+            .arg("remove")
+            .arg("example")
+            .assert()
+            .success();
+
+        assert!(!path.exists());
+    }
 }

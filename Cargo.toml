@@ -2,7 +2,7 @@
 name = "apps"
 version = "0.1.0"
 edition = "2021"
-description = "Helps you to create application launchers"
+description = "Helps you to create application launchers in gnome based desktops"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

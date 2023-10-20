@@ -8,6 +8,10 @@ use std::{
     ops::Add,
 };
 
+const HOME: &str = "HOME";
+const APPLICATION_FOLDER: &str = "/.local/share/applications/";
+const FILE_EXTENSION: &str = ".desktop";
+
 #[derive(Template)]
 #[template(path = "template.txt")]
 pub struct DesktopTemplate<'a> {
@@ -35,21 +39,21 @@ pub fn get_dir_iter() -> Result<ReadDir> {
 }
 
 fn get_app_fs() -> Result<String> {
-    let home = env::var("HOME")?;
-    let path = home.add("/.local/share/applications/");
+    let home = env::var(HOME)?;
+    let path = home.add(APPLICATION_FOLDER);
     Ok(path)
 }
 
 pub fn write_file(name: &str, contents: &str) -> Result<()> {
-    let name = name.to_owned().add(".desktop");
+    let name = name.to_owned().add(FILE_EXTENSION);
     let path = get_app_fs()?;
     let path = path.add(&name);
     fs::write(path, contents.as_bytes())?;
     Ok(())
 }
 
-pub fn remove_file(name: &str) ->Result<()> {
-    let name = name.to_owned().add(".desktop");
+pub fn remove_file(name: &str) -> Result<()> {
+    let name = name.to_owned().add(FILE_EXTENSION);
     let path = get_app_fs()?.add(&name);
     fs::remove_file(path)?;
     Ok(())
