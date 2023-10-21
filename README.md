@@ -55,4 +55,4 @@ Number of local applications: 5
 
 ### Tests
 
-The tests cant run on multithread environment, because the **concurrent file acceses will break the process**. Then use the test.sh script in folder.
+The tests cant run on multithread environment, because the **concurrent file access will break the process**, then use the test.sh script in folder.
