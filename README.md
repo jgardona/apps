@@ -36,23 +36,52 @@ $ apps read --list
 +------+--------------------+
 | ✔    | texstudio.desktop  |
 +------+--------------------+
-| ✔    | SimulIde.desktop   |
-+------+--------------------+
-| ✔    | Stellarium.desktop |
-+------+--------------------+
 | ✔    | krita.desktop      |
 +------+--------------------+
 | ✔    | inkscape.desktop   |
 +------+--------------------+
 ```
 
+### Create
+```
+$ apps create "example" "example.icon" "executable" "example comment"
+
+$ apps read -l
++------+-------------------+
+| kind | name              |
++------+-------------------+
+| ✔    | inkscape.desktop  |
++------+-------------------+
+| ✔    | krita.desktop     |
++------+-------------------+
+| ✔    | texstudio.desktop |
++------+-------------------+
+| ✔    | example.desktop   |
++------+-------------------+
+```
+
+### Remove
+```
+$ apps remove example
+Application removed
+
+$ apps read -l
++------+-------------------+
+| kind | name              |
++------+-------------------+
+| ✔    | inkscape.desktop  |
++------+-------------------+
+| ✔    | krita.desktop     |
++------+-------------------+
+| ✔    | texstudio.desktop |
++------+-------------------+
+```
 ### Count
 
 ```
 $ apps read --count
 Number of local applications: 5
 ```
-
 ### Tests
 
 The tests cant run on multithread environment, because the **concurrent file access will break the process**, then use the test.sh script in folder.
