@@ -1,6 +1,6 @@
 [package]
 name = "apps"
-version = "0.2.0"
+version = "0.2.1"
 edition = "2021"
 description = "Helps you to create application launchers in gnome based desktops"
 authors = ["Julio Gardona <jcbritobr@gmail.com>"]
