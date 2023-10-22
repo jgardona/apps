@@ -83,8 +83,11 @@ fn match_commands(command: Commands) -> error::Result<()> {
             write_file(template.appname, &rendered)?;
         }
         Commands::Remove { name } => {
-            remove_file(&name)?;
-            println!("Application removed");
+            if remove_file(&name).is_ok() {
+                println!("Application removed");
+            } else {
+                println!("Cant remove application {name}. Verify if file already exists");
+            }
         }
     }
     Ok(())
@@ -164,8 +167,8 @@ mod cli_tests {
     fn test_cli_remove_file() {
         let file_path = "tests/.local/share/applications/example.desktop";
         let path = Path::new(file_path);
-        let _ =  std::fs::File::create(path).unwrap();
-        
+        let _ = std::fs::File::create(path).unwrap();
+
         let mut cmd = Command::cargo_bin("apps").unwrap();
         cmd.env("HOME", "tests")
             .arg("remove")
