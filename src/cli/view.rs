@@ -4,13 +4,12 @@ use tabled::{Table, Tabled};
 
 #[derive(Tabled)]
 pub struct FileItem {
-    kind: String,
     name: String,
 }
 
 impl FileItem {
-    pub fn new(kind: String, name: String) -> Self {
-        Self { kind, name }
+    pub fn new(name: String) -> Self {
+        Self { name }
     }
 }
 
@@ -25,22 +24,22 @@ mod view_tests {
     #[test]
     fn test_display() {
         let data = vec![
-            FileItem::new("1".into(), "One".into()),
-            FileItem::new("2".into(), "Two".into()),
-            FileItem::new("3".into(), "Three".into()),
+            FileItem::new("One".into()),
+            FileItem::new("Two".into()),
+            FileItem::new("Three".into()),
         ];
 
         let result = display(data).unwrap();
-        let expected = "+------+-------+\n\
-                        | kind | name  |\n\
-                        +------+-------+\n\
-                        | 1    | One   |\n\
-                        +------+-------+\n\
-                        | 2    | Two   |\n\
-                        +------+-------+\n\
-                        | 3    | Three |\n\
-                        +------+-------+";
-
+        let expected = "\
+                            +-------+\n\
+                            | name  |\n\
+                            +-------+\n\
+                            | One   |\n\
+                            +-------+\n\
+                            | Two   |\n\
+                            +-------+\n\
+                            | Three |\n\
+                            +-------+";
         println!("{result}");
         assert_eq!(expected, result);
     }
