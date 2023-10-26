@@ -31,15 +31,15 @@ Options:
 
 ```
 $ apps read --list
-+------+--------------------+
-| kind | name               |
-+------+--------------------+
-| ✔    | texstudio.desktop  |
-+------+--------------------+
-| ✔    | krita.desktop      |
-+------+--------------------+
-| ✔    | inkscape.desktop   |
-+------+--------------------+
++--------------------+
+| name               |
++--------------------+
+| texstudio.desktop  |
++--------------------+
+| krita.desktop      |
++--------------------+
+| inkscape.desktop   |
++--------------------+
 ```
 
 ### Create
@@ -47,17 +47,17 @@ $ apps read --list
 $ apps create "example" "example.icon" "executable" "example comment"
 
 $ apps read -l
-+------+-------------------+
-| kind | name              |
-+------+-------------------+
-| ✔    | inkscape.desktop  |
-+------+-------------------+
-| ✔    | krita.desktop     |
-+------+-------------------+
-| ✔    | texstudio.desktop |
-+------+-------------------+
-| ✔    | example.desktop   |
-+------+-------------------+
++-------------------+
+| name              |
++-------------------+
+| inkscape.desktop  |
++-------------------+
+| krita.desktop     |
++-------------------+
+| texstudio.desktop |
++-------------------+
+| example.desktop   |
++-------------------+
 ```
 
 ### Remove
@@ -66,15 +66,15 @@ $ apps remove example
 Application removed
 
 $ apps read -l
-+------+-------------------+
-| kind | name              |
-+------+-------------------+
-| ✔    | inkscape.desktop  |
-+------+-------------------+
-| ✔    | krita.desktop     |
-+------+-------------------+
-| ✔    | texstudio.desktop |
-+------+-------------------+
++-------------------+
+| name              |
++-------------------+
+| inkscape.desktop  |
++-------------------+
+| krita.desktop     |
++-------------------+
+| texstudio.desktop |
++-------------------+
 ```
 ### Count
 
