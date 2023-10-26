@@ -93,18 +93,13 @@ fn match_commands(command: Commands) -> error::Result<()> {
     Ok(())
 }
 
-fn cast(fdata: std::fs::ReadDir) -> error::Result<Vec<FileItem>> {
+fn cast(fdata: Vec<String>) -> error::Result<Vec<FileItem>> {
     let mut buffer = vec![];
-    for e in fdata {
-        let e = e?;
-        let filename = e.file_name().clone();
-        let filename: String = filename.to_str().unwrap().into();
-        let kind = if !filename.ends_with("desktop") {
+    for filename in fdata {
+        if !filename.ends_with("desktop") {
             continue;
-        } else {
-            "✔".to_string()
-        };
-        let item = FileItem::new(kind, filename);
+        }
+        let item = FileItem::new(filename);
         buffer.push(item);
     }
     Ok(buffer)

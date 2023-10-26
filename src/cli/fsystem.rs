@@ -4,7 +4,7 @@ use super::error::Result;
 
 use std::{
     env,
-    fs::{self, ReadDir},
+    fs::{self},
     ops::Add,
 };
 
@@ -32,10 +32,20 @@ impl<'a> DesktopTemplate<'a> {
     }
 }
 
-pub fn get_dir_iter() -> Result<ReadDir> {
+pub fn get_dir_iter() -> Result<Vec<String>> {
     let path = get_app_fs()?;
     let dir = fs::read_dir(path)?;
-    Ok(dir)
+    let buffer: Vec<String> = dir
+        .filter_map(|s| {
+            let path = s.ok()?.path();
+            if path.is_file() {
+                path.file_name()?.to_str().map(|s| s.into())
+            } else {
+                None
+            }
+        })
+        .collect();
+    Ok(buffer)
 }
 
 fn get_app_fs() -> Result<String> {
